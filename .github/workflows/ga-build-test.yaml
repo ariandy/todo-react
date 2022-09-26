@@ -71,3 +71,12 @@ jobs:
               echo "runing the docker image"
               echo "Testing the nodejs  app endpoints"
               echo ${{ steps.docker_build.outputs.digest }}
+
+  deployment:
+    runs-on: self-hosted
+    needs: [push_to_docker]
+    steps:
+    - name: Pull docker image
+      run: sudo docker pull ariandy/nodejs-demo:latest
+    - name: Run docker container
+      run: sudo docker run -d ariandy/nodejs-demo:latest
